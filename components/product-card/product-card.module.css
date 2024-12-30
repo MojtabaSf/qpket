@@ -1,0 +1,51 @@
+.container {
+  width: 48%;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+  margin-bottom: 16px;
+  border: 1px solid lightgrey;
+  padding: 8px 8px 0 8px;
+  border-radius: 6px;
+  transition: all 0.3s ease-in-out;
+}
+.container:hover {
+  width: 48%;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+  margin-bottom: 16px;
+  border: 1px solid rgb(194, 99, 5);
+  padding: 8px 8px 0 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  background-color: rgb(255, 239, 216);
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  margin-left: 16px;
+}
+.details div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 12px;
+}
+.details p {
+  margin-right: 8px;
+  font-family: "RobotoRegular";
+  font-size: 14px;
+  color: rgb(93, 93, 93);
+}
+.details span {
+  font-family: "RobotoRegular";
+  font-size: 14px;
+}
