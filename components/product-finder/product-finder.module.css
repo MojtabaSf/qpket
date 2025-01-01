@@ -24,12 +24,18 @@
 .imageContainer li {
   font-family: "RobotoRegular";
   font-size: 16px;
-  margin: 12px 0 0 12px;
+  margin: 12px 8px 0 12px;
+}
+.attributesContainer {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .selectorsContainer {
   width: 100%;
   max-width: 363px;
+  height: 390px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -44,6 +50,15 @@
   margin: 12px 0 16px;
   font-family: "RobotoLight";
   color: #5d5b5b;
+}
+.scroll {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  overflow-y: scroll;
+  padding-bottom: 4px;
 }
 .buttonContainer {
   width: 100%;

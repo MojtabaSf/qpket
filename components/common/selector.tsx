@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect } from "react";
 import styled from "styled-components";
 
 type ClientSelectorType = {
@@ -10,6 +9,8 @@ type ClientSelectorType = {
   margin?: string;
   placeholder?: any;
   opacity?: number;
+  items?: any;
+  ref?: any;
 };
 
 export default function ClientSelector({
@@ -19,18 +20,56 @@ export default function ClientSelector({
   margin,
   placeholder,
   opacity,
+  items,
+  ref,
 }: ClientSelectorType) {
   return (
     <Select
+      ref={ref}
       onChange={(e) => {
-        setObject({ ...object, [`${item?.key}`]: e.target.value });
+        if (item?.key == "main") {
+          setObject({ ...items, main: e.target.value });
+        } else if (item?.key == "second") {
+          setObject({
+            ...object,
+            second: e.target.value,
+            third: "",
+            att_list: {
+              type: "",
+              type1: "",
+              type2: "",
+            },
+          });
+        } else if (item?.key == "third") {
+          setObject({
+            ...object,
+            third: e.target.value,
+            att_list: {
+              type: "",
+              type1: "",
+              type2: "",
+            },
+          });
+        } else {
+          setObject({
+            ...object,
+            att_list: {
+              ...object.att_list,
+              [`${item?.type}`]: e.target.value,
+            },
+          });
+        }
       }}
-      value={object?.[`${item?.key}`]}
+      value={
+        item?.key
+          ? object?.[`${item?.key}`]
+          : object?.att_list?.[`${item?.type}`]
+      }
       margin={margin}
       opacity={opacity}
     >
       <option value="" hidden>
-        {placeholder?.[`${item?.key}`]}
+        {placeholder}
       </option>
       {item?.list?.map((val: any, index: number) => (
         <option key={index} value={val}>

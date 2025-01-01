@@ -23,7 +23,7 @@ export default function Modal({ openModal, setOpenModal, list }: ModalType) {
             setOpenModal(openModal == "true" ? "false" : "true");
           }}
         />
-        <div className="items">
+        <div className="items customScroll">
           {list?.length == 0 ? (
             <p>No Item Found!</p>
           ) : (
@@ -76,14 +76,14 @@ const Container = styled.section<ContainerType>`
 
   .items {
     width: 100%;
+    max-width: 100%;
     height: 100%;
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
     align-items: ${({ list }) => (list?.length == 1 ? "flex-start" : "center")};
     justify-content: flex-start;
-    overflow-y: ${({ list }) => (list?.length == 0 ? "hidden" : "scroll")};
+    overflow-y: ${({ list }) => (list?.length < 2 ? "hidden" : "scroll")};
     padding: 16px 0 0 0;
-    flex-wrap: wrap;
 
     > p {
       width: 100%;

@@ -3,24 +3,29 @@
 import Image from "next/image";
 import style from "./product-finder.module.css";
 import ClientSelector from "../common/selector";
-import { useEffect, useState } from "react";
-import { images, itemsList, selectorsList } from "@/objects/objects";
+import { useEffect, useState, useRef } from "react";
 import ClientButton from "../common/button";
 import Modal from "../common/modal";
+import {
+  attributes,
+  images,
+  itemsList,
+  selectorsList,
+} from "@/objects/objects";
 
 type ProductFinderType = {
   main: string;
   second: string;
   third: string;
-  first: string;
+  att_list?: any;
 };
 
 export default function ProductFinder() {
   const items: ProductFinderType = {
-    main: "Main Category",
-    second: "Second Category",
-    third: "Third Category",
-    first: "First Attribute",
+    main: "",
+    second: "",
+    third: "",
+    att_list: {},
   };
 
   const [object, setObject] = useState(items);
@@ -28,27 +33,38 @@ export default function ProductFinder() {
   const [openModal, setOpenModal] = useState<string>("false");
   const [error, setError] = useState<boolean>(false);
   const [filteredList, setFilteredList] = useState<any[]>([]);
+  const ref = useRef<any>(null);
+
+  const AutoScroll = () => {
+    ref.current?.scrollIntoView({ behavior: "smooth" });
+  };
 
   function ClearData() {
     setObject(items);
   }
 
+  useEffect(() => {
+    let obj: any = {};
+    const att = attributes?.filter((x: any) => x.title == object.third)?.[0];
+    att?.list.forEach((val) => {
+      obj[`${val?.type}`] = "";
+    });
+    if (object.third != "") {
+      AutoScroll();
+    }
+  }, [object.third]);
+
   function FindProducts() {
-    setFilteredList(
-      itemsList?.filter(
-        (val: any) =>
-          val?.province == object.second &&
-          val?.situation == object.third &&
-          val?.type == object.main &&
-          val?.attribute == object.first
-      )
-    );
-    if (
-      object?.main != "Main Category" &&
-      object?.second != "Second Category" &&
-      object?.third != "Third Category"
-    ) {
+    if (object?.main != "" && object?.second != "" && object?.third != "") {
       setError(false);
+      setFilteredList(
+        itemsList?.filter(
+          (val: any) =>
+            val?.province == object.second &&
+            val?.situation == object.third &&
+            val?.type == object.main
+        )
+      );
       setOpenModal("true");
     } else {
       setError(true);
@@ -75,28 +91,77 @@ export default function ProductFinder() {
           height={350}
           alt=""
         />
-        <li>{object?.first}</li>
+        {object?.third != "" && (
+          <div className={style.attributesContainer}>
+            {object?.att_list?.type && <li>{object?.att_list?.type}</li>}
+            {object?.att_list?.type1 && <li>{object?.att_list?.type1}</li>}
+            {object?.att_list?.type1 && <li>{object?.att_list?.type2}</li>}
+          </div>
+        )}
       </div>
       <div className={style.selectorsContainer}>
         <h1>Qpket Product Finder</h1>
         <div className={style.breadCrumbs}>
-          <span>{object.main}</span>
+          <span>{object.main != "" ? object.main : "Main Category"}</span>
           &thinsp; - &thinsp;
-          <span>{object.second}</span>
+          <span>{object.second ? object.second : "Second Category"}</span>
           &thinsp; - &thinsp;
-          <span>{object.third}</span>
+          <span>{object.third ? object.third : "Third Category"}</span>
         </div>
-        {selectorsList?.map((val: any, index: number) => (
+        <div className={`${style.scroll} hideScroll`}>
           <ClientSelector
-            item={val}
+            item={selectorsList?.[0]}
             object={object}
             setObject={setObject}
-            key={index}
             margin="16px 0 0 0"
-            placeholder={items}
-            opacity={val?.id == 1 || val?.id == 4 ? 0.6 : 1}
+            placeholder="Main Category"
+            opacity={0.6}
+            items={items}
           />
-        ))}
+          <ClientSelector
+            item={
+              selectorsList?.filter((x: any) => x.title == object.main)?.[0]
+            }
+            object={object}
+            setObject={setObject}
+            margin="16px 0 0 0"
+            placeholder="Second Category"
+            opacity={1}
+            items={items}
+          />
+          <ClientSelector
+            item={
+              selectorsList?.filter((x: any) => x.title == object.second)?.[0]
+            }
+            object={object}
+            setObject={setObject}
+            margin="16px 0 0 0"
+            placeholder="Third Category"
+            opacity={1}
+            items={items}
+          />
+          {object?.third != "" &&
+            attributes
+              ?.filter((x: any) => x.title == object.third)?.[0]
+              ?.list?.map((val: any, index: number) => (
+                <ClientSelector
+                  ref={ref}
+                  item={val}
+                  object={object}
+                  setObject={setObject}
+                  margin="16px 0 0 0"
+                  placeholder={
+                    index == 0
+                      ? "First Attribute"
+                      : index == 1
+                      ? "Second Attribute"
+                      : "Third Attribute"
+                  }
+                  opacity={0.6}
+                  key={index}
+                />
+              ))}
+        </div>
         <div className={style.buttonContainer}>
           <ClientButton
             width="35%"

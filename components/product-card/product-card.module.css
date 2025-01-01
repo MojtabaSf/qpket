@@ -9,6 +9,7 @@
   padding: 8px 8px 0 8px;
   border-radius: 6px;
   transition: all 0.3s ease-in-out;
+  margin-right: 2%;
 }
 .container:hover {
   width: 48%;

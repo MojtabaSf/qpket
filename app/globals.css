@@ -45,6 +45,7 @@ html,
 body {
   max-width: 100vw;
   overflow-x: hidden;
+  scroll-behavior: smooth;
 }
 
 * {
@@ -74,4 +75,29 @@ h1 {
 button {
   outline: none;
   border: none;
+}
+
+.hideScroll::-webkit-scrollbar {
+  height: 0;
+}
+.hideScroll::-webkit-scrollbar-track {
+  border-radius: 0;
+}
+.hideScroll::-webkit-scrollbar-thumb {
+  background-color: transparent;
+}
+
+.customScroll::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+.customScroll::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+.customScroll::-webkit-scrollbar-thumb {
+  background-color: #ff624a;
+  border-radius: 10px;
+}
+.customScroll::-webkit-scrollbar-thumb:hover {
+  background-color: #ff624a;
 }
